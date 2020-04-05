@@ -15,3 +15,9 @@ p {
   margin: auto;
   padding-top: 10px;
 }
+
+.header-link {
+  color: white;
+  text-decoration: none;
+  padding: 5px;
+}
