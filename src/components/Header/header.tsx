@@ -4,7 +4,8 @@ import "./style.css";
 const Header: React.SFC = () => {
   return (
     <header>
-      <p>Sup niggas</p>
+      <h2>Dogs UI</h2>
+      <p>Informações de Dogs</p>
     </header>
   );
 };
