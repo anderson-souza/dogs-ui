@@ -1,0 +1,17 @@
+header {
+  background-color: #4a2b20;
+  overflow: hidden;
+  padding: 20px 20px;
+  align-items: center;
+}
+
+h2 {
+  color: white;
+  margin: auto;
+}
+
+p {
+  color: white;
+  margin: auto;
+  padding-top: 10px;
+}
