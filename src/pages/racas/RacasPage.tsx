@@ -1,39 +1,63 @@
-import React from "react";
+import * as React from "react";
 import { getRacas } from "../../services/RacasService";
-import { Return } from "../../interfaces/Return";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import Racas from "../../interfaces/Racas";
+import { Button } from "primereact/button";
 
-const RacasPage = () => {
-  const [racas, setracas] = React.useState([]);
-
-  async function loadRacas() {
-    await getRacas
-      .then((response: any) => {
-        console.log(response);
-
-        const { data } = response;
-
-        setracas(data.message);
-
-        console.log(typeof racas);
-      })
-      .catch((error: any) => {
-        alert(error);
-      });
+interface IState {
+  dogs: Racas[];
+}
+export default class RacasPage extends React.Component<{}, IState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      dogs: [],
+    };
   }
 
-  React.useEffect(() => {
-    loadRacas();
-  }, []);
+  componentDidMount() {
+    getRacas.then((response: any) => {
+      const {
+        data: { message },
+      } = response;
 
-  return (
-    <div>
-      <ul>
-        {Object.entries(racas).map((row: any) => (
-          <li key={row[0]}>{row[0]}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+      const racasArray: Racas[] = [];
+      Object.entries(message).map((row: any) =>
+        racasArray.push({ name: row[0], subRacas: row[1] })
+      );
+      this.setState({ dogs: racasArray });
+    });
+  }
 
-export default RacasPage;
+  handleClick() {
+    console.log("clicamos aqui viado");
+  }
+
+  actionTemplate() {
+    return (
+      <div>
+        <Button
+          type='button'
+          icon='pi pi-search'
+          className='p-button-success'
+          style={{ marginRight: ".5em" }}
+        />
+        <Button
+          type='button'
+          icon='pi pi-pencil'
+          className='p-button-warning'
+        />
+      </div>
+    );
+  }
+
+  public render() {
+    return (
+      <DataTable value={this.state.dogs}>
+        <Column field='name' header='Raça' />
+        <Column header='Ações' body={this.actionTemplate} />
+      </DataTable>
+    );
+  }
+}
